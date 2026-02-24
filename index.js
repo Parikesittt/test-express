@@ -33,5 +33,9 @@ app.get('/hehe', (req, res) => {
     res.send('HEHEHEHEHEHEHEHEHE');
 })
 
+app.get('/admin', (req, res) => {
+    res.status(401).send("Dilarang Masuk");
+})
+
 
 app.listen(3000);
