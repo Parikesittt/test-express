@@ -3,7 +3,7 @@ import express from "express";
 const app = express()
 
 app.use((req, res, next) => {
-    if(true){
+    if(!true){
         next(new Error('Not Authorized'));
         return;
     }
