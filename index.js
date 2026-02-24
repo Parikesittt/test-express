@@ -24,5 +24,14 @@ app.get('/say/:greeting', (req, res) => {
     res.send(greeting);
 })
 
+app.get('/hoho/:params', (req, res) => {
+    const {params} = req.params;
+    res.send('hoho '+ params);
+})
+
+app.get('/hehe', (req, res) => {
+    res.send('HEHEHEHEHEHEHEHEHE');
+})
+
 
 app.listen(3000);
