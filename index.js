@@ -2,6 +2,7 @@ import express from "express";
 import notesRouter from './routes/notes.js';
 import mongoose from "mongoose";
 import { Post } from "./models/index.js";
+import cors from "cors";
 
 const app = express()
 const uri = "mongodb+srv://parikesitwidodo_db_user:M8JPD5g8aJrN6EVv@cluster0.eatljww.mongodb.net/appdb?retryWrites=true&w=majority";
@@ -14,6 +15,7 @@ mongoose.connect(uri, {
     .then(() => console.log('✅ Berhasil Konek!'))
     .catch(err => console.error('❌ Masih Error:', err));
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/notes', notesRouter);
