@@ -3,7 +3,7 @@ import notesRouter from './routes/notes.js';
 import mongoose from "mongoose";
 import { Post } from "./models/index.js";
 import cors from "cors";
-import serverless from "serverless-http";
+// import serverless from "serverless-http";
 
 const app = express()
 // const uri = "mongodb+srv://parikesitwidodo_db_user:M8JPD5g8aJrN6EVv@cluster0.eatljww.mongodb.net/appdb?retryWrites=true&w=majority";
@@ -67,5 +67,5 @@ app.post('/test', (req, res) => {
 })
 
 
-// app.listen(3000);
-export default serverless(app);
+app.listen(3000);
+// export default serverless(app);
