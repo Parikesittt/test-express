@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as Note from '../models/note.js';
 import { Post } from "../models/index.js";
+import { connectDB, db } from "../db.js";
 
 const router = Router();
 
@@ -10,6 +11,7 @@ const router = Router();
 // });
 router.get('/', async (req, res) => {
     try {
+        await connectDB();
         const notes = await Post.find();
         res.json(notes);
     } catch (err) {
@@ -20,6 +22,8 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res, next) => {
     const { id } = req.params;
     try {
+        await connectDB();
+
         const note = await Post.findById(id);
         if (!note) {
             return res.status(404).json({ error: 'Note not found' });
@@ -51,6 +55,8 @@ router.post('/', async (req, res) => {
         return;
     }
     try {
+        await connectDB();
+
         const note = await Post.create({ title: title, content: content, author: author });
         res.status(201).json(note);
     } catch (err) {
@@ -62,6 +68,8 @@ router.put('/:id', async (req, res, next) => {
     const { id } = req.params;
     const { title, content, author } = req.body;
     try {
+        await connectDB();
+
         const updatedNote = await Post.findByIdAndUpdate(id, { title, content, author }, { new: true });
         if (!updatedNote) {
             return res.status(404).json({ error: 'Note not found' });
@@ -85,6 +93,8 @@ router.put('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
     const { id } = req.params;
     try {
+        await connectDB();
+
         const note = await Post.findByIdAndDelete(id);
 
         if (!note) return res.status(404).json({ message: "Note not found" });

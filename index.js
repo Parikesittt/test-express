@@ -3,17 +3,18 @@ import notesRouter from './routes/notes.js';
 import mongoose from "mongoose";
 import { Post } from "./models/index.js";
 import cors from "cors";
+import serverless from "serverless-http";
 
 const app = express()
-const uri = "mongodb+srv://parikesitwidodo_db_user:M8JPD5g8aJrN6EVv@cluster0.eatljww.mongodb.net/appdb?retryWrites=true&w=majority";
-// const uri = "mongodb://parikesitwidodo_db_user:M8JPD5g8aJrN6EVv@ac-llcotdp-shard-00-00.eatljww.mongodb.net:27017,ac-llcotdp-shard-00-01.eatljww.mongodb.net:27017,ac-llcotdp-shard-00-02.eatljww.mongodb.net:27017/appdb?ssl=true&replicaSet=atlas-69uhmh-shard-0&authSource=admin&retryWrites=true&w=majority";
-mongoose.connect(uri, {
-    serverSelectionTimeoutMS: 10000,
-    family: 4,
-    tls: true,
-})
-    .then(() => console.log('✅ Berhasil Konek!'))
-    .catch(err => console.error('❌ Masih Error:', err));
+// const uri = "mongodb+srv://parikesitwidodo_db_user:M8JPD5g8aJrN6EVv@cluster0.eatljww.mongodb.net/appdb?retryWrites=true&w=majority";
+// // const uri = "mongodb://parikesitwidodo_db_user:M8JPD5g8aJrN6EVv@ac-llcotdp-shard-00-00.eatljww.mongodb.net:27017,ac-llcotdp-shard-00-01.eatljww.mongodb.net:27017,ac-llcotdp-shard-00-02.eatljww.mongodb.net:27017/appdb?ssl=true&replicaSet=atlas-69uhmh-shard-0&authSource=admin&retryWrites=true&w=majority";
+// mongoose.connect(uri, {
+//     serverSelectionTimeoutMS: 10000,
+//     family: 4,
+//     tls: true,
+// })
+//     .then(() => console.log('✅ Berhasil Konek!'))
+//     .catch(err => console.error('❌ Masih Error:', err));
 
 app.use(cors({
     origin: '*',
@@ -66,4 +67,5 @@ app.post('/test', (req, res) => {
 })
 
 
-app.listen(3000);
+// app.listen(3000);
+export default serverless(app);
