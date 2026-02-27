@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as Note from '../models/note.js';
 import { Post } from "../models/index.js";
-import { connectDB, db } from "../db.js";
+import { connectDB } from "../db.js";
 
 const router = Router();
 
