@@ -1,8 +1,10 @@
 import express from "express";
 import notesRouter from './routes/notes.js';
+import userRouter from './routes/user.js';
 import mongoose from "mongoose";
 import { Post } from "./models/index.js";
 import cors from "cors";
+import { connectDB } from "./db.js";
 // import serverless from "serverless-http";
 
 const app = express()
@@ -24,6 +26,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/notes', notesRouter);
+app.use('/auth', userRouter);
 
 
 app.use((req, res, next) => {
@@ -67,5 +70,9 @@ app.post('/test', (req, res) => {
 })
 
 
-app.listen(3000);
+connectDB().then(() => {
+    app.listen(3000, () => {
+        console.log("Server running on port 3000");
+    });
+});
 // export default serverless(app);
