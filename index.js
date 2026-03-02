@@ -6,6 +6,8 @@ import { Post } from "./models/index.js";
 import cors from "cors";
 import { connectDB } from "./db.js";
 import passport from "passport";
+import dotenv from "dotenv";
+dotenv.config();
 // import serverless from "serverless-http";
 
 const app = express()
@@ -39,10 +41,10 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ error: "Internal Server Error" });
-});
+// app.use((err, req, res, next) => {
+//   console.error(err);
+//   res.status(500).json({ error: "Internal Server Error" });
+// });
 
 app.get('/', (req, res) => {
     res.send('Hello Kesit!');
