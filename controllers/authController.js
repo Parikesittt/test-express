@@ -1,6 +1,7 @@
 import { User } from "../models/index.js";
 import { connectDB } from "../db.js";
 import { hashPassword, verifyPassword } from "../utils/hash.js";
+import jwt from "jsonwebtoken";
 
 // REGISTER
 export const register = async (req, res, next) => {
@@ -54,8 +55,11 @@ export const login = async (req, res, next) => {
             return res.status(400).json({ error: "Invalid email or password" });
         }
 
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
         return res.json({
             message: "Login successful",
+            token: token,
             data: {
                 id: user._id,
                 name: user.name,

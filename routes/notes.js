@@ -2,6 +2,7 @@ import { Router } from "express";
 import * as Note from '../models/note.js';
 import { Post } from "../models/index.js";
 import { connectDB } from "../db.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -9,7 +10,7 @@ const router = Router();
 //     const notes = Note.list();
 //     res.json(notes);
 // });
-router.get('/', async (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         await connectDB();
         const notes = await Post.find();
