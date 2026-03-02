@@ -1,10 +1,11 @@
 import express from "express";
 import notesRouter from './routes/notes.js';
-import userRouter from './routes/user.js';
+import userRouter from './routes/authRoutes.js';
 import mongoose from "mongoose";
 import { Post } from "./models/index.js";
 import cors from "cors";
 import { connectDB } from "./db.js";
+import passport from "passport";
 // import serverless from "serverless-http";
 
 const app = express()
@@ -25,6 +26,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 app.use('/notes', notesRouter);
 app.use('/auth', userRouter);
 
@@ -38,9 +40,9 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    console.error(err); // biar keliatan di terminal
-    res.status(401).send(err.message);
-})
+  console.error(err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
 
 app.get('/', (req, res) => {
     res.send('Hello Kesit!');
