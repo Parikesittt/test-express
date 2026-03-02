@@ -13,25 +13,21 @@ const opts = {
 
 passport.use(
     new JwtStrategy(opts, async (payload, done) => {
+        console.log("PAYLOAD:", payload);
+        console.log("SECRET VERIFY:", process.env.JWT_SECRET);
+
         try {
-            await connectDB();
-
             const user = await User.findById(payload.id);
-            if (!user) {
-                return done(null, false, { message: "Invalid email or password" });
-            }
+            console.log("USER FOUND:", user);
 
-            const isPasswordValid = verifyPassword(payload.password, user.password);
-            if (!isPasswordValid) {
-                return done(null, false, { message: "Invalid email or password" });
-            }
+            if (!user) return done(null, false);
 
             return done(null, user);
         } catch (err) {
-            return done(err);
+            console.error("JWT STRATEGY ERROR:", err);
+            return done(err, false);
         }
-    }
-    )
+    })
 );
 
 export default passport;
