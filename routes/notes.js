@@ -16,6 +16,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
         const notes = await Post.find();
         res.json(notes);
     } catch (err) {
+        console.error("NOTES ERROR:", err);
         res.status(500).json({ error: err.message });
     }
 });

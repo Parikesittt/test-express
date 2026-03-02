@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import notesRouter from './routes/notes.js';
 import userRouter from './routes/authRoutes.js';
@@ -5,9 +8,7 @@ import mongoose from "mongoose";
 import { Post } from "./models/index.js";
 import cors from "cors";
 import { connectDB } from "./db.js";
-import passport from "passport";
-import dotenv from "dotenv";
-dotenv.config();
+import passport from "./config/passport.js";
 // import serverless from "serverless-http";
 
 const app = express()
