@@ -2,6 +2,8 @@ import { User } from "../models/index.js";
 import { connectDB } from "../db.js";
 import { hashPassword, verifyPassword } from "../utils/hash.js";
 import jwt from "jsonwebtoken";
+import { sendEmail } from "../utils/mailer.js";
+import { generateResetToken } from "../utils/hash.js";
 
 // REGISTER
 export const register = async (req, res, next) => {
@@ -71,3 +73,48 @@ export const login = async (req, res, next) => {
         next(err);
     }
 };
+
+export const requestReset = async (req, res, next) => {
+    const { email } = req.body;
+    try {
+        await connectDB();
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+        const resetToken = generateResetToken();
+        user.resetToken = resetToken;
+        user.resetTokenExpiry = Date.now() + + 1000 * 60 * 15;
+        await user.save();
+        // Kirim email dengan resetToken (gunakan nodemailer atau layanan email lainnya)
+        const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+        await sendEmail(
+            email,
+            "Reset Password",
+            `<a href="${resetLink}">Click here to reset password</a>`
+        );
+
+        res.json({ message: "Password reset link generated. Please check your email." });
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const resetPassword = async (req, res, next) => {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+    try {
+        await connectDB();
+        const user = await User.findOne({ resetToken: token, resetTokenExpiry: { $gt: Date.now() } });
+        if (!user) return res.status(400).json({ message: "Invalid or expired token" });
+
+        user.password = hashPassword(newPassword);
+        user.resetToken = undefined;
+        user.resetTokenExpiry = undefined;
+        await user.save();
+        res.json({ message: "Password reset successful" });
+    } catch (err) {
+        next(err);
+    }
+}

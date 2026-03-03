@@ -1,3 +1,5 @@
+import { isValidEmail, isValidPassword } from "../utils/validator.js";
+
 export const validateRegister = (req, res, next) => {
     const { name, email, password, phone } = req.body;
 

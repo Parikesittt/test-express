@@ -13,7 +13,12 @@ export const authenticateJWT = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+        // const decoded = jwt.decode(token);
+        // const iat = decoded.iat;
+        // const now = Math.floor(Date.now() / 1000);
+        // if (now - iat > 300) {
+        //     return res.status(401).json({ message: "Token abis bang" });
+        // }
         await connectDB();
         const user = await User.findById(decoded.id);
 

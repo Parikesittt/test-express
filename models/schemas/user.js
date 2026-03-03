@@ -5,6 +5,8 @@ export const UserSchema = new Schema({
     password: String,
     email: String,
     phone: String,
+    resetToken: String,
+    resetTokenExpiry: Date,
 }
     , {
         timestamps: true,

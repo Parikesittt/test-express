@@ -15,3 +15,7 @@ export function verifyPassword(password, storedHash) {
 
     return hash === storedHash;
 }
+
+export function generateResetToken() {
+    return crypto.randomBytes(32).toString("hex");
+}
