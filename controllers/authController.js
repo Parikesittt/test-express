@@ -88,7 +88,7 @@ export const requestReset = async (req, res, next) => {
         user.resetTokenExpiry = Date.now() + + 1000 * 60 * 15;
         await user.save();
         // Kirim email dengan resetToken (gunakan nodemailer atau layanan email lainnya)
-        const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+        const resetLink = `http://express.pkesitt.my.id/reset-password/${resetToken}`;
         await sendEmail(
             email,
             "Reset Password",
