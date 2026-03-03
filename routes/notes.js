@@ -3,6 +3,7 @@ import * as Note from '../models/note.js';
 import { Post } from "../models/index.js";
 import { connectDB } from "../db.js";
 import passport from "passport";
+import { authenticateJWT } from "../middlewares/validateToken.js";
 
 const router = Router();
 
@@ -10,7 +11,7 @@ const router = Router();
 //     const notes = Note.list();
 //     res.json(notes);
 // });
-router.get('/', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/', authenticateJWT, async (req, res) => {
     try {
         await connectDB();
         const notes = await Post.find();
