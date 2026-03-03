@@ -4,6 +4,8 @@ import { hashPassword, verifyPassword } from "../utils/hash.js";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/mailer.js";
 import { generateResetToken } from "../utils/hash.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 // REGISTER
 export const register = async (req, res, next) => {
@@ -75,6 +77,8 @@ export const login = async (req, res, next) => {
 };
 
 export const requestReset = async (req, res, next) => {
+    const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+
     const { email } = req.body;
     try {
         await connectDB();
@@ -88,7 +92,8 @@ export const requestReset = async (req, res, next) => {
         user.resetTokenExpiry = Date.now() + + 1000 * 60 * 15;
         await user.save();
         // Kirim email dengan resetToken (gunakan nodemailer atau layanan email lainnya)
-        const resetLink = `http://express.pkesitt.my.id/reset-password/${resetToken}`;
+        const resetLink = `${FRONTEND_URL}/reset-password/${resetToken}`;
+        // const resetLink = `http://express.pkesitt.my.id/reset-password/${resetToken}`;
         await sendEmail(
             email,
             "Reset Password",
