@@ -123,3 +123,29 @@ export const resetPassword = async (req, res, next) => {
         next(err);
     }
 }
+
+function generateRandomPassword() {
+    return Math.floor(Math.random() * 1000000).toString().padStart(8, "0");
+}
+
+export const forgotPassword = async (req, res, next) => {
+    const { email } = req.body;
+    try {
+        await connectDB();
+        const user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ message: "User not found" });
+
+        const newPassword = generateRandomPassword();
+        user.password = hashPassword(newPassword);
+        await user.save();
+
+        await sendEmail(
+            email,
+            "Password Reset",
+            `Your new password is: ${newPassword}`
+        );
+        res.json({ message: "New password sent to your email" });
+    } catch (err) {
+        next(err);
+    }
+}
