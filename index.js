@@ -4,6 +4,7 @@ dotenv.config();
 import express from "express";
 import notesRouter from './routes/notes.js';
 import userRouter from './routes/authRoutes.js';
+import paymentRouter from './routes/paymentRoutes.js';
 import mongoose from "mongoose";
 import { Post } from "./models/index.js";
 import cors from "cors";
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(passport.initialize());
 app.use('/notes', notesRouter);
 app.use('/auth', userRouter);
+app.use('/payment', paymentRouter);
 
 
 app.use((req, res, next) => {
