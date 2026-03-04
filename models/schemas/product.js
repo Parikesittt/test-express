@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
-const productSchema = new mongoose.Schema(
+export const ProductSchema = new Schema(
   {
     name: String,
     price: Number,
@@ -14,5 +14,3 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-export const Product = mongoose.model("Product", productSchema);

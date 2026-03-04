@@ -1,4 +1,4 @@
-import { snap } from "../utils/midtrans";
+import { snap } from "../utils/midtrans.js";
 
 export const createTransaction = async (req, res, next) => {
     const { amount, first_name, email } = req.body;
@@ -16,14 +16,14 @@ export const createTransaction = async (req, res, next) => {
         },
     };
 
-    try{
+    try {
         const transaction = await snap.createTransaction(parameter);
         res.json({
             message: "Transaksi berhasil dibuat",
             token: transaction.token,
             redirect_url: transaction.redirect_url,
         })
-    }catch(err){
+    } catch (err) {
         next(err);
     }
 }

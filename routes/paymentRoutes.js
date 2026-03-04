@@ -1,6 +1,5 @@
-import { connectDB } from "../db";
 import { Router } from "express";
-import { createTransaction } from "../controllers/paymentController";
+import { createTransaction } from "../controllers/paymentController.js";
 
 const router = Router();
 
