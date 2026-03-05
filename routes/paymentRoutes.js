@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { createTransaction } from "../controllers/paymentController.js";
+import { createTransaction, checkPaymentStatus, handleNotification } from "../controllers/paymentController.js";
 
 const router = Router();
 
 router.post("/create-transaction", createTransaction);
+router.get("/status/:orderId", checkPaymentStatus);
+router.post("/notification", handleNotification);
 
 export default router;
